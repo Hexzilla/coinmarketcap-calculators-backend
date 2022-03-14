@@ -19,3 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 }); 
  
 Route::get('exchange', [App\Http\Controllers\Api\ExchangeController::class, 'index']); 
+Route::get('prices', [App\Http\Controllers\Api\ExchangeController::class, 'priceHistory']); 
