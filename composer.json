@@ -11,7 +11,8 @@
         "laravel/cashier": "^13.8",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "laravel/ui": "^3.4",
         "srmklive/paypal": "~3.0",
         "stripe/stripe-php": "^7.117"
     },
@@ -21,7 +22,7 @@
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
-        "phpunit/phpunit": "^9.5.10"
+        "phpunit/phpunit": "^9.5.10",
         "spatie/laravel-ignition": "^1.0"
     },
     "autoload": {
