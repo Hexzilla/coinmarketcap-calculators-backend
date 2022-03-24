@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-//use App\Http\Controllers\TestController; 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,7 +16,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-}); 
- 
-Route::get('exchange', [App\Http\Controllers\Api\ExchangeController::class, 'index']); 
-Route::get('prices', [App\Http\Controllers\Api\ExchangeController::class, 'priceHistory']); 
+});
