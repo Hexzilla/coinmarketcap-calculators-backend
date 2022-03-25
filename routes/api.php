@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\StripeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,4 +31,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // API route for logout user
     Route::post('/logout', [App\Http\Controllers\API\AuthController::class, 'logout']);
+
+    Route::get('/subscription/create', ['as'=>'home', 'uses' => 'SubscriptionController@index'])->name('subscription.create');
+    Route::post('/order-post', ['as' => 'order-post', 'uses' => 'SubscriptionController@orderPost']);
+
+    Route::post('/payment', 'PaymentController@payment')->name('payment');
+    Route::get('/payment/status', 'PaymentController@paymentStatus')->name('payment_status');
+
+    Route::get('/stripe/secret', 'StripeController@clientSecret')->name('stripe_secret');
 });
