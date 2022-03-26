@@ -17,3 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Super admin
+Route::middleware(['role:editor'])->group(function () {
+    Route::resource('users', 'UserController');
+    Route::resource('plans', 'PlanController');
+});
