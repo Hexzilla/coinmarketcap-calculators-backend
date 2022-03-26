@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubscriptonsTable extends Migration
+class CreateSubscriptionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -38,4 +38,4 @@ class CreateSubscriptonsTable extends Migration
     {
         Schema::dropIfExists('subscriptions');
     }
-};
+}

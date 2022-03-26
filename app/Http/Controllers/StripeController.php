@@ -1,40 +1,51 @@
 <?php
-    
+
 namespace App\Http\Controllers;
-    
+
 use Illuminate\Http\Request;
-use Session;
-use Stripe;
-    
+Use App\User;
+use Exception;
+use Auth;
+
 class StripeController extends Controller
 {
-    /**
-     * success response method.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function stripe()
+    public function __construct()
     {
-        return view('stripe');
+        //Stripe::setApiKey(env('STRIPE_SECRET'));
     }
-   
-    /**
-     * success response method.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function stripePost(Request $request)
+
+    public function index()
     {
-        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-        Stripe\Charge::create ([
-                "amount" => 100 * 100,
-                "currency" => "usd",
-                "source" => $request->stripeToken,
-                "description" => "This payment is tested purpose phpcodingstuff.com"
-        ]);
-   
-        Session::flash('success', 'Payment successful!');
-           
-        return back();
+        
+    }
+
+    public function singleCharge(Request $request)
+    {
+        try {
+            $user = auth()->user();
+            if (is_null($user->stripe_id)) {
+                $user->createAsStripeCustomer();
+            }
+
+            $payment = $user->charge(1000, $request->paymentMethodId);
+            if ($payment) {
+                $client_secret = $payment->client_secret;
+                return response()->json([
+                    'success' => true,
+                    'transactioId' => $client_secret->id,
+                    'amount' => $client_secret->amount / 100,
+                ]);
+            }
+
+            return response()->json([
+                'success' => false,
+            ]);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e
+            ]);
+        }
     }
 }

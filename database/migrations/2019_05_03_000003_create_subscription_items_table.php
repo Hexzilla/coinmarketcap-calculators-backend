@@ -34,4 +34,4 @@ class CreateSubscriptionItemsTable extends Migration
     {
         Schema::dropIfExists('subscription_items');
     }
-};
+}
