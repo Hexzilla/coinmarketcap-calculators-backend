@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
-Use App\Models\User;
+Use App\User;
+Use App\Transaction;
 use Exception;
 use Auth;
 
@@ -49,7 +51,7 @@ class PaypalController extends Controller
         ]);
         
         /*$mergeData = array_merge($data, [
-            'status' => TransactionStatus::PENDING, 
+            'status' => 'pending',
             'vendor_order_id' => $order['id']]
         );
         
@@ -124,15 +126,16 @@ class PaypalController extends Controller
             DB::beginTransaction();
             if ($result['status'] === "COMPLETED") {
                 $transaction = new Transaction;
-                $transaction->vendor_payment_id = $orderId;
+                $transaction->vendor_payment_id = $order_id;
                 $transaction->payment_gateway_id  = $payment_gateway_id;
                 $transaction->user_id = $user_id;
-                $transaction->status = TransactionStatus::COMPLETED;
+                $transaction->status = 'completed';
                 $transaction->save();
-                $order = Order::where('vendor_order_id', $order_id)->first();
+
+                /*$order = Order::where('vendor_order_id', $order_id)->first();
                 $order->transaction_id = $transaction->id;
-                $order->status = TransactionStatus::COMPLETED;
-                $order->save();
+                $order->status = 'completed';
+                $order->save();*/
                 DB::commit();
             }
         } catch (Exception $e) {
