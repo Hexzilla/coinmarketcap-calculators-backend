@@ -34,13 +34,10 @@ Route::group(['middleware' => ['auth:api']], function () {
         return auth()->user();
     });
 
-    /*Route::get('/subscription/create', ['as'=>'home', 'uses' => 'SubscriptionController@index'])->name('subscription.create');
-    Route::post('/order-post', ['as' => 'order-post', 'uses' => 'SubscriptionController@orderPost']);
+    Route::post('/paypal/order/create', [App\Http\Controllers\PaypalController::class, 'create'])->name('paypal_create');
+    Route::get('/paypal/order/capture', [App\Http\Controllers\PaypalController::class, 'capture'])->name('paypal_capture');
 
-    Route::post('/payment', 'PaymentController@payment')->name('payment');
-    Route::get('/payment/status', 'PaymentController@paymentStatus')->name('payment_status');*/
-
-    Route::post('/stripe/secret', [App\Http\Controllers\StripeController::class, 'clientSecret'])->name('stripe_secret');
+    Route::post('/stripe/secret', [App\Http\Controllers\StripeController::class, 'singleCharge'])->name('stripe_secret');
 });
  
 Route::get('exchange', [App\Http\Controllers\Api\ExchangeController::class, 'index']); 

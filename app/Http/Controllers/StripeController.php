@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 Use App\User;
 use Exception;
 use Auth;
@@ -25,7 +26,6 @@ class StripeController extends Controller
             'amount' => 'required|integer',
             'paymentMethodId' => 'required',
         ]);
-      
         if ($validator->fails()) {
             $errors = $validator->errors();
             return response()->json(['status' => 'error', 'message' => $errors ], 400);
