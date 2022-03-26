@@ -21,13 +21,24 @@ class StripeController extends Controller
 
     public function singleCharge(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'amount' => 'required|integer',
+            'paymentMethodId' => 'required',
+        ]);
+      
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return response()->json(['status' => 'error', 'message' => $errors ], 400);
+        }
+
         try {
             $user = auth()->user();
             if (is_null($user->stripe_id)) {
                 $user->createAsStripeCustomer();
             }
 
-            $payment = $user->charge(1000, $request->paymentMethodId);
+            $amount = $request->input('amount') * 100;
+            $payment = $user->charge($amount, $request->paymentMethodId);
             if ($payment) {
                 $client_secret = $payment->client_secret;
                 return response()->json([
